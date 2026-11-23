@@ -1,4 +1,5 @@
 local util = require("notify.util")
+local group_id = require("notify.service.buffer.group_id")
 
 ---@class NotifyBufHighlights
 ---@field groups table
@@ -17,7 +18,7 @@ function NotifyBufHighlights:new(level, buffer, config)
     if vim.fn.hlID(orig) == 0 then
       orig = "NotifyINFO" .. section
     end
-    local new = orig .. buffer
+    local new = orig .. group_id.of(buffer)
 
     vim.api.nvim_set_hl(0, new, { link = orig })
     local hl = vim.api.nvim_get_hl(0, { name = orig, create = false, link = false })
@@ -63,7 +64,7 @@ function NotifyBufHighlights:_redefine_treesitter()
   vim.api.nvim_buf_clear_namespace(self.buffer, render_namespace, 0, -1)
 
   local function link(orig)
-    local new = orig .. self.buffer
+    local new = orig .. group_id.of(self.buffer)
     if self.groups[new] then
       return new
     end
