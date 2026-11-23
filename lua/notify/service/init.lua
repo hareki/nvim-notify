@@ -98,8 +98,12 @@ function NotificationService:dismiss(opts)
   end
   if opts.pending then
     local cleared = 0
-    while self._pending:pop() do
+    local notif_buf = self._pending:pop()
+    while notif_buf do
+      -- Never opened, so no window close will delete its buffer
+      pcall(vim.api.nvim_buf_delete, notif_buf:buffer(), { force = true })
       cleared = cleared + 1
+      notif_buf = self._pending:pop()
     end
     if not opts.silent then
       vim.notify("Cleared " .. cleared .. " pending notifications")
