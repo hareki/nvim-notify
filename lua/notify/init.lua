@@ -136,7 +136,7 @@ end
 
 --- Open a notification in a new buffer
 ---@param notif_id integer|notify.Record
----@param opts notify.OpenOpts
+---@param opts? notify.OpenOpts
 ---@return notify.OpenedBuffer
 function notify.open(notif_id, opts)
   if not global_instance then
@@ -146,8 +146,8 @@ function notify.open(notif_id, opts)
 end
 
 ---@class notify.OpenOpts
----@field buffer integer Use this buffer, instead of creating a new one
----@field max_width integer Render message to this width (used to limit window decoration sizes)
+---@field buffer? integer Use this buffer, instead of creating a new one
+---@field max_width? integer Render message to this width (used to limit window decoration sizes)
 
 ---@class notify.OpenedBuffer
 ---@field buffer integer Created buffer number
